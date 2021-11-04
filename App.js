@@ -1,12 +1,49 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from "react";
+import { View, StyleSheet, FlatList } from "react-native";
+import { AddTodo } from "./src/AddTodo";
+import { Navbar } from "./src/Navbar";
+import { Todo } from "./src/Todo";
 
 export default function App() {
+  const [todos, setTodos] = useState([]);
+
+  const addTodo = (title) => {
+    // const newTodo = {
+    //   id: Date.now().toString(),
+    //   title: title,
+    // };
+
+    // setTodos(todos.concat([newTodo]))
+
+    // setTodos((prevTodos) => {
+    //   return [...prevTodos, newTodo];
+    // });
+
+    setTodos((prev) => [
+      ...prev,
+      {
+        id: Date.now().toString(),
+        title: title,
+      },
+    ]);
+  };
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View style={{ flex: 1 }}>
+      <Navbar title="TODO APP!" />
+      <View style={styles.container}>
+        <AddTodo title="Add" onSubmit={addTodo} />
+
+        <FlatList
+          style={{ flex: 1 }}
+          keyExtractor={(item) => item.id.toString}
+          data={todos}
+          renderItem={({ item }) => <Todo todo={item} />}
+        />
+        {/* {todos.map((todo) => (
+          <Todo todo={todo} key={todo.id} />
+        ))} */}
+      </View>
     </View>
   );
 }
@@ -14,8 +51,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingHorizontal: 30,
+    paddingVertical: 20,
   },
 });
