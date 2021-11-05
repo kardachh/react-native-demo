@@ -4,13 +4,18 @@ import { TextInput, Button, View, StyleSheet, Alert } from "react-native";
 export const AddTodo = (props) => {
   const [value, setValue] = useState("");
 
+  const printAllTodos = () => {
+    console.log(props.currentTodos);
+  };
+
   const pressHandler = () => {
     if (value.trim()) {
       props.onSubmit(value);
       setValue("");
     } else {
       //error
-      Alert.alert("Enter task name first");
+      printAllTodos();
+      // Alert.alert("Enter task name first");
     }
   };
 
